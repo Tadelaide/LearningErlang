@@ -6,7 +6,7 @@
 %% API functions
 %% ====================================================================
 
-- export ([ start/0, ping/2, pong/0]).
+- export ([ start/0, ping/2, pong/1]).
 ping (0 , Pong_PID ) ->
     Pong_PID ! finished ,
     io : format ("Pong mail message is taken 666Ping finished~n" ,[]);
@@ -24,7 +24,9 @@ ping (N , Pong_PID ) ->
     ping ( N - 1 , Pong_PID ).
     %io : format("ping is over~n",[]).
 
-pong () ->
+pong (0) ->
+            io : format ("Pong mail message is over finished~n" ,[]);
+pong (N) ->
     io : format("pong() start~n", []),
     receive
 
@@ -37,22 +39,24 @@ pong () ->
             io : format ("!!!!! from ~p ping!!!!!~n" ,[self()]),
             Ping_PID ! pong ,
             %io : format("Ping mail message is taken bbb~n", []),
-            pong ();
+            pong (N);
         finished ->
-                io : format ("Pong mail message is over finished~n" ,[])
+            pong (N-1)
+            %io : format ("Pong mail message is over finished~n" ,[])
                 
-    end,
-    io : format("ooo~n", []).
+    end.
+    %io : format("ooo~n", []).
 
 
+        
 
 start () ->
-    Pong_PID1 = spawn ( pingpong , pong , []) ,
+    Pong_PID = spawn ( pingpong , pong , [2]) ,
     %io : format (" Ping !!~p!!finished~n" , [Pong_PID]),
-    spawn ( pingpong , ping , [1 , Pong_PID1 ]),
+    spawn ( pingpong , ping , [1 , Pong_PID ]),
     %io : format("the second process start~n",[]),
-    Pong_PID2 = spawn ( pingpong , pong , []) ,
-    spawn ( pingpong , ping , [5 , Pong_PID2 ]).
+    %Pong_PID2 = spawn ( pingpong , pong , []) ,
+    spawn ( pingpong , ping , [5 , Pong_PID ]).
 
 %% ====================================================================
 %% Internal functions
