@@ -39,7 +39,7 @@ nth([Head | Rest],X,Count)->
 	ABC = 1,
 	if
 		X == Count ->
-			io : format ("HELLO, ~p ~n",[Head]);
+			io : format ("HELLO, ~p ~n",[Count]);
 		true ->
 			nth(Rest,X,Count+ABC)
 	end.

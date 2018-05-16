@@ -48,14 +48,13 @@ pong (N) ->
     %io : format("ooo~n", []).
 
 
-        
-
 start () ->
     Pong_PID = spawn ( pingpong , pong , [2]) ,
     %io : format (" Ping !!~p!!finished~n" , [Pong_PID]),
     spawn ( pingpong , ping , [1 , Pong_PID ]),
-    %io : format("the second process start~n",[]),
+    io : format("the 123second process start~n",[]),
     %Pong_PID2 = spawn ( pingpong , pong , []) ,
+    io : format("the second process start~n",[]),
     spawn ( pingpong , ping , [5 , Pong_PID ]).
 
 %% ====================================================================
