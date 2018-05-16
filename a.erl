@@ -7,7 +7,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([main/1,lc_stuff/1,nil/0,do/1,p1/2,work/1,lookup/2,inPlugboard/2,transfer/1]).
+-export([start/0, ping/2, pong/1,main/1,lc_stuff/1,nil/0,do/1,p1/2,work/1,lookup/2,inPlugboard/2,transfer/1,count/1]).
 
 nil() ->
 ok.
@@ -82,7 +82,29 @@ lc_stuff([{N,M}|R]) ->
 			NewList = A++R,
 			io : format("Finished~p\n.",[NewList])
 	end.
+count([H|R])->
+	io : format("Finished~p\n.",[R]).
 
+
+
+start() ->
+	Pong_PID = spawn (a,pong,[2]) ,
+    io : format (" Ping !!~p!!finished~n" , [Pong_PID]),
+	spawn (a,ping,[1,Pong_PID]),
+	io : format (" Ping !!~p!!finished~n" , [Pong_PID]).
+
+ping(N,Pong_PID) ->
+	io : format("~p,www~p~n", [N,Pong_PID]),
+	Pong_PID ! { pin , self ()},
+	io : format("NNN~n", []),
+	io : format("NNN~n", []).
+pong(N)->
+		receive
+			{ pin , Ping_PID } ->
+				io : format("Pong mail message is over 111~n", []);
+		finished ->
+			io : format (" fuck~n")
+end.
 %% ====================================================================
 %% Internal functions
 %% ====================================================================

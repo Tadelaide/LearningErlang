@@ -49,7 +49,7 @@ pong (N) ->
 
 
 start () ->
-    Pong_PID = spawn ( pingpong , pong , [2]) ,
+    Pong_PID = spawn ( pingpong , pong , [1]) ,
     %io : format (" Ping !!~p!!finished~n" , [Pong_PID]),
     spawn ( pingpong , ping , [1 , Pong_PID ]),
     io : format("the 123second process start~n",[]),
